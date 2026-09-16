@@ -10,39 +10,55 @@
 
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Gowun+Batang:wght@400;700&family=Noto+Sans+KR:wght@300;400;500&family=Parisienne&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Gothic+A1:wght@100;200;300;400;500&family=Parisienne&display=swap" rel="stylesheet">
 
+<style>
+/* Pretendard — 구글 폰트에 없어서 CDN에서 직접 불러옵니다.
+   주소가 막힌 환경에서는 아래 Gothic A1로 자동 대체됩니다. */
+@font-face{font-family:'Pretendard';font-weight:200;font-style:normal;font-display:swap;
+  src:url('https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/woff2/Pretendard-ExtraLight.woff2') format('woff2'),
+      url('https://cdn.jsdelivr.net/gh/fonts-archive/Pretendard/Pretendard-ExtraLight.woff2') format('woff2');}
+@font-face{font-family:'Pretendard';font-weight:300;font-style:normal;font-display:swap;
+  src:url('https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/woff2/Pretendard-Light.woff2') format('woff2'),
+      url('https://cdn.jsdelivr.net/gh/fonts-archive/Pretendard/Pretendard-Light.woff2') format('woff2');}
+@font-face{font-family:'Pretendard';font-weight:400;font-style:normal;font-display:swap;
+  src:url('https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/woff2/Pretendard-Regular.woff2') format('woff2'),
+      url('https://cdn.jsdelivr.net/gh/fonts-archive/Pretendard/Pretendard-Regular.woff2') format('woff2');}
+@font-face{font-family:'Pretendard';font-weight:500;font-style:normal;font-display:swap;
+  src:url('https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/woff2/Pretendard-Medium.woff2') format('woff2'),
+      url('https://cdn.jsdelivr.net/gh/fonts-archive/Pretendard/Pretendard-Medium.woff2') format('woff2');}
+</style>
 <style>
 /* ═══════════════════════════════════════════
    색 · 글꼴
    ═══════════════════════════════════════════ */
 :root{
   --paper:#FFFFFF;        /* 바탕 — 흰색 */
-  --paper-deep:#FCF6F7;   /* 살짝 분홍빛 도는 흰색 (구역 구분) */
-  --ink:#3A3236;          /* 제목 글자 */
-  --ink-soft:#6B6166;     /* 본문 글자 */
-  --ink-faint:#A99BA1;    /* 옅은 글자 */
-  --accent:#D98BA0;       /* 포인트 — 핑크 */
-  --accent-2:#C06F89;     /* 신부측 포인트 (조금 진한 핑크) */
-  --accent-soft:#F0D3DB;
-  --line:#EBDFE3;
-  --field:#FDFAFB;
-  --serif:'Gowun Batang', serif;
-  --sans:'Noto Sans KR', sans-serif;
+  --paper-deep:#FFF6F7;   /* 살짝 코랄빛 도는 흰색 (구역 구분) */
+  --ink:#3A3133;          /* 제목 글자 */
+  --ink-soft:#6B6063;     /* 본문 글자 */
+  --ink-faint:#AB9BA0;    /* 옅은 글자 */
+  --accent:#F2808F;       /* 포인트 — 핑크코랄 */
+  --accent-2:#DE6376;     /* 신부측 포인트 (조금 진한 핑크코랄) */
+  --accent-soft:#FBD6DC;
+  --line:#F2E0E4;
+  --field:#FFFBFC;
+  --serif:'Pretendard','Gothic A1',sans-serif;   /* 제목·이름 */
+  --sans:'Pretendard','Gothic A1',sans-serif;    /* 본문·버튼 */
   --script:'Parisienne', cursive;
   --shadow:0 2px 24px rgba(35,48,44,.10);
 }
 @media (prefers-color-scheme: dark){
   :root:not([data-theme="light"]){
-    --paper:#1E1A1C;--paper-deep:#282225;--ink:#F0E8EB;--ink-soft:#C6BABF;
-    --ink-faint:#8E8187;--accent:#E3A0B2;--accent-2:#CE8AA0;--accent-soft:#5A3C46;
-    --line:#3D3337;--field:#282225;--shadow:0 2px 24px rgba(0,0,0,.45);
+    --paper:#1E1B1C;--paper-deep:#282324;--ink:#F1E9EA;--ink-soft:#C8BCBE;
+    --ink-faint:#8E8385;--accent:#F79BA8;--accent-2:#E88494;--accent-soft:#5C3C42;
+    --line:#3D3537;--field:#282324;--shadow:0 2px 24px rgba(0,0,0,.45);
   }
 }
 :root[data-theme="dark"]{
-  --paper:#1E1A1C;--paper-deep:#282225;--ink:#F0E8EB;--ink-soft:#C6BABF;
-  --ink-faint:#8E8187;--accent:#E3A0B2;--accent-2:#CE8AA0;--accent-soft:#5A3C46;
-  --line:#3D3337;--field:#282225;--shadow:0 2px 24px rgba(0,0,0,.45);
+  --paper:#1E1B1C;--paper-deep:#282324;--ink:#F1E9EA;--ink-soft:#C8BCBE;
+  --ink-faint:#8E8385;--accent:#F79BA8;--accent-2:#E88494;--accent-soft:#5C3C42;
+  --line:#3D3537;--field:#282324;--shadow:0 2px 24px rgba(0,0,0,.45);
 }
 
 *{box-sizing:border-box;}
@@ -61,18 +77,18 @@ section{padding:46px 26px;text-align:center;position:relative;}
 .flush{padding-left:0;padding-right:0;}
 
 .title{
-  font-family:var(--serif);font-size:18px;color:var(--ink);
-  letter-spacing:.14em;margin:0 0 22px;font-weight:400;
+  font-family:var(--serif);font-size:15.5px;color:var(--ink);
+  letter-spacing:.18em;margin:0 0 22px;font-weight:400;
 }
 .title::before{
   content:"";display:block;width:1px;height:22px;
   background:var(--line);margin:0 auto 15px;
 }
-p{line-height:1.85;margin:0 0 .85em;font-size:15px;}
-.lead{font-size:14.5px;color:var(--ink-faint);line-height:1.85;}
+p{line-height:1.9;margin:0 0 .85em;font-size:13.5px;}
+.lead{font-size:13px;color:var(--ink-faint);line-height:1.85;}
 
 /* 사진 자리 */
-.photo{position:relative;background:linear-gradient(150deg,#F2E6EA,#E1D0D7);overflow:hidden;}
+.photo{position:relative;background:linear-gradient(150deg,#F8E5E9,#EACDD4);overflow:hidden;}
 .photo img{width:100%;height:100%;object-fit:cover;}
 .photo .slot{
   position:absolute;inset:0;display:flex;align-items:center;justify-content:center;
@@ -85,12 +101,12 @@ p{line-height:1.85;margin:0 0 .85em;font-size:15px;}
 .hero .photo{aspect-ratio:3/4;}
 .hero-script{
   position:absolute;left:24px;right:24px;bottom:44px;
-  font-family:var(--script);color:#fff;font-size:42px;line-height:1.05;
+  font-family:var(--script);color:#fff;font-size:34px;line-height:1.05;
   text-shadow:0 2px 20px rgba(0,0,0,.35);
   opacity:0;animation:up 1.2s .5s ease forwards;
 }
 .hero-when{
-  position:absolute;left:0;right:0;bottom:20px;color:#fff;font-size:12px;
+  position:absolute;left:0;right:0;bottom:20px;color:#fff;font-size:11px;
   letter-spacing:.22em;text-shadow:0 1px 12px rgba(0,0,0,.4);
   opacity:0;animation:up 1.2s .85s ease forwards;
 }
@@ -98,24 +114,24 @@ p{line-height:1.85;margin:0 0 .85em;font-size:15px;}
 
 /* ═══ 인사말 ═══ */
 .couple-line{
-  font-family:var(--serif);font-size:21px;color:var(--ink);
+  font-family:var(--serif);font-size:17.5px;color:var(--ink);
   letter-spacing:.04em;margin-bottom:24px;
 }
-.couple-line .heart{color:var(--accent);font-size:17px;margin:0 6px;}
-.greet{font-family:var(--serif);font-size:15.5px;line-height:2.05;}
+.couple-line .heart{color:var(--accent);font-size:15px;margin:0 6px;}
+.greet{font-family:var(--serif);font-size:14px;line-height:2.05;}
 .greet-photo{margin-top:30px;aspect-ratio:4/5;}
 
 /* ═══ 신랑·신부 소개 ═══ */
 .people-row{display:grid;grid-template-columns:1fr 1fr;gap:18px;}
 .person{text-align:center;}
 .person .photo{aspect-ratio:3/4;border-radius:2px;}
-.person .tag{font-size:12.5px;letter-spacing:.12em;color:var(--accent);margin-top:12px;}
+.person .tag{font-size:11.5px;letter-spacing:.12em;color:var(--accent);margin-top:12px;}
 .person.b .tag{color:var(--accent-2);}
 .person .nm{
-  font-family:var(--serif);font-size:19px;color:var(--ink);
+  font-family:var(--serif);font-size:16.5px;color:var(--ink);
   margin:4px 0 9px;padding-bottom:9px;border-bottom:1px solid var(--line);
 }
-.person .fm{font-size:12.5px;color:var(--ink-soft);line-height:1.75;}
+.person .fm{font-size:12px;color:var(--ink-soft);line-height:1.75;}
 .person .tel{
   margin-top:11px;font-size:12.5px;padding:8px 14px;
   border:1px solid var(--line);background:transparent;color:var(--ink-soft);
@@ -126,13 +142,13 @@ p{line-height:1.85;margin:0 0 .85em;font-size:15px;}
 /* ═══ 예식 안내 ═══ */
 .when-block{
   border-top:1px solid var(--line);border-bottom:1px solid var(--line);
-  padding:20px 0;font-family:var(--serif);font-size:17px;color:var(--ink);
-  line-height:1.9;letter-spacing:.03em;
+  padding:20px 0;font-family:var(--serif);font-size:14.5px;color:var(--ink);
+  line-height:1.95;letter-spacing:.03em;
 }
 .cal{margin:24px auto 0;max-width:290px;padding:14px 0;
      border-top:1px solid var(--line);border-bottom:1px solid var(--line);}
-.cal table{width:100%;border-collapse:collapse;font-size:13.5px;}
-.cal th{font-weight:400;color:var(--ink-faint);font-size:12px;padding-bottom:10px;}
+.cal table{width:100%;border-collapse:collapse;font-size:12px;}
+.cal th{font-weight:400;color:var(--ink-faint);font-size:11px;padding-bottom:10px;}
 .cal td{padding:5px 0;color:var(--ink-soft);position:relative;}
 .cal .sun{color:#B08080;}
 .cal .mark{color:#fff;font-weight:500;}
@@ -141,7 +157,7 @@ p{line-height:1.85;margin:0 0 .85em;font-size:15px;}
   margin:-15px 0 0 -15px;background:var(--accent);border-radius:50%;
 }
 .cal .mark span{position:relative;}
-.dday{margin-top:16px;font-size:14px;color:var(--accent);font-family:var(--serif);}
+.dday{margin-top:16px;font-size:13px;color:var(--accent);font-family:var(--serif);}
 
 /* ═══ 갤러리 ═══ */
 .slider{position:relative;}
@@ -160,7 +176,7 @@ p{line-height:1.85;margin:0 0 .85em;font-size:15px;}
 .dots{display:flex;gap:6px;justify-content:center;margin-top:12px;}
 .dot{width:5px;height:5px;border-radius:50%;background:var(--line);transition:.25s;}
 .dot.on{background:var(--accent);width:16px;border-radius:3px;}
-.counter{margin-top:8px;font-size:12px;color:var(--ink-faint);letter-spacing:.1em;}
+.counter{margin-top:8px;font-size:11.5px;color:var(--ink-faint);letter-spacing:.1em;}
 
 .lightbox{position:fixed;inset:0;background:rgba(38,31,34,.96);display:none;
   align-items:center;justify-content:center;z-index:120;}
@@ -174,9 +190,9 @@ p{line-height:1.85;margin:0 0 .85em;font-size:15px;}
 .lb-count{position:absolute;bottom:30px;color:#fff;font-size:13px;opacity:.7;letter-spacing:.1em;}
 
 /* ═══ 오시는 길 ═══ */
-.venue-name{font-family:var(--serif);font-size:19px;color:var(--ink);}
-.venue-sub{font-size:14.5px;margin-top:8px;}
-.venue-addr{font-size:14px;margin-top:6px;color:var(--ink-soft);}
+.venue-name{font-family:var(--serif);font-size:16.5px;color:var(--ink);}
+.venue-sub{font-size:13px;margin-top:8px;}
+.venue-addr{font-size:13px;margin-top:6px;color:var(--ink-soft);}
 #map{width:100%;height:210px;margin-top:18px;background:var(--paper);border:1px solid var(--line);}
 .map-fallback{
   width:100%;height:100%;display:flex;flex-direction:column;
@@ -184,38 +200,38 @@ p{line-height:1.85;margin:0 0 .85em;font-size:15px;}
   font-size:12.5px;color:var(--ink-faint);line-height:1.8;text-align:center;padding:20px;
 }
 .map-btns{display:flex;gap:7px;margin-top:10px;}
-.map-btns .btn{flex:1;padding:12px 4px;font-size:13px;}
+.map-btns .btn{flex:1;padding:11px 4px;font-size:12.5px;}
 .info-list{margin-top:26px;text-align:left;border-top:1px solid var(--line);}
-.info-list dt{font-family:var(--serif);font-size:14px;color:var(--ink);padding-top:14px;}
-.info-list dd{margin:6px 0 14px;font-size:13.5px;line-height:1.8;}
+.info-list dt{font-family:var(--serif);font-size:14px;color:var(--ink);font-size:13px;padding-top:14px;}
+.info-list dd{margin:6px 0 14px;font-size:12.5px;line-height:1.8;}
 
 /* ═══ 화환 안내 ═══ */
 .notice{
   background:var(--field);border:1px solid var(--line);
   padding:24px 20px;margin-top:0;
 }
-.notice h3{font-family:var(--serif);font-size:16px;color:var(--ink);margin:0 0 10px;font-weight:400;}
-.notice p{font-size:13.5px;line-height:1.85;margin:0;color:var(--ink-soft);}
+.notice h3{font-family:var(--serif);font-size:14px;color:var(--ink);margin:0 0 10px;font-weight:400;}
+.notice p{font-size:12.5px;line-height:1.85;margin:0;color:var(--ink-soft);}
 
 /* ═══ 버튼 · 입력 ═══ */
 .btn{
-  font-size:13.5px;font-weight:400;padding:11px 18px;
+  font-size:12.5px;font-weight:400;padding:11px 18px;
   border:1px solid var(--line);background:transparent;color:var(--ink-soft);
   border-radius:2px;cursor:pointer;transition:.2s;
 }
 .btn:hover{border-color:var(--accent);color:var(--accent);}
 .btn-solid{
   background:var(--accent);border-color:var(--accent);color:#fff;
-  padding:14px 34px;font-size:14.5px;
+  padding:13px 32px;font-size:13.5px;
 }
 .btn-solid:hover{opacity:.88;color:#fff;}
 .btn-solid:disabled{opacity:.5;cursor:default;}
 .btn-wide{width:100%;}
 
-label.f{display:block;text-align:left;font-size:13px;color:var(--ink);margin:17px 0 7px;}
+label.f{display:block;text-align:left;font-size:12.5px;color:var(--ink);margin:17px 0 7px;}
 label.f .req{color:#C07878;margin-left:3px;}
 input.f,textarea.f{
-  width:100%;padding:11px 13px;font-size:15px;font-family:var(--sans);font-weight:300;
+  width:100%;padding:11px 13px;font-size:16px;font-family:var(--sans);font-weight:300;
   background:var(--field);border:1px solid var(--line);border-radius:2px;color:var(--ink);
 }
 input.f:focus,textarea.f:focus{outline:2px solid var(--accent);outline-offset:1px;border-color:transparent;}
@@ -223,7 +239,7 @@ textarea.f{resize:vertical;min-height:78px;line-height:1.8;}
 
 .chips{display:flex;gap:7px;}
 .chip{
-  flex:1;padding:12px 4px;font-size:14px;text-align:center;cursor:pointer;
+  flex:1;padding:11px 4px;font-size:13px;text-align:center;cursor:pointer;
   border:1px solid var(--line);background:var(--field);color:var(--ink-soft);
   border-radius:2px;transition:.18s;
 }
@@ -244,7 +260,7 @@ textarea.f{resize:vertical;min-height:78px;line-height:1.8;}
 .acc:last-of-type{border-bottom:1px solid var(--line);}
 .acc-head{
   width:100%;background:none;border:0;padding:15px 4px;cursor:pointer;
-  font-family:var(--serif);font-size:15px;color:var(--ink);
+  font-family:var(--serif);font-size:13.5px;color:var(--ink);
   display:flex;justify-content:space-between;align-items:center;
 }
 .acc-head .mk{color:var(--ink-faint);font-size:13px;transition:transform .25s;}
@@ -252,17 +268,28 @@ textarea.f{resize:vertical;min-height:78px;line-height:1.8;}
 .acc-body{display:none;padding:0 4px 16px;text-align:left;}
 .acc-body.on{display:block;}
 .bank{display:flex;justify-content:space-between;align-items:center;gap:12px;padding:9px 0;}
-.bank .num{font-size:13.5px;line-height:1.7;}
+.bank .num{font-size:12.5px;line-height:1.7;}
 .bank .num b{display:block;font-weight:400;color:var(--ink-faint);font-size:12px;margin-bottom:3px;}
 
 /* ═══ 방명록 ═══ */
 .book{margin-top:20px;text-align:left;}
 .entry{border-top:1px solid var(--line);padding:14px 2px;}
-.entry .who{font-family:var(--serif);font-size:14.5px;color:var(--ink);}
+.entry .who{font-family:var(--serif);font-size:13.5px;color:var(--ink);}
 .entry .at{font-size:11.5px;color:var(--ink-faint);margin-left:9px;}
-.entry .what{font-size:14px;line-height:1.85;margin:8px 0 0;white-space:pre-wrap;}
-.empty{color:var(--ink-faint);font-size:13.5px;padding:20px 0;text-align:center;line-height:1.9;}
+.entry .what{font-size:12.5px;line-height:1.85;margin:8px 0 0;white-space:pre-wrap;}
+.empty{color:var(--ink-faint);font-size:12.5px;padding:20px 0;text-align:center;line-height:1.9;}
 .book-btns{display:flex;gap:8px;margin-top:18px;}
+.admin-link{
+  background:none;border:0;color:var(--ink-faint);font-size:11px;
+  margin-top:16px;cursor:pointer;text-decoration:underline;opacity:.55;
+  font-family:var(--sans);
+}
+.admin-link:hover{opacity:1;color:var(--accent-2);}
+.entry .del{
+  float:right;background:none;border:1px solid var(--line);color:var(--ink-faint);
+  font-size:11px;padding:3px 9px;border-radius:2px;cursor:pointer;font-family:var(--sans);
+}
+.entry .del:hover{border-color:var(--accent-2);color:var(--accent-2);}
 .book-btns .btn{flex:1;}
 
 /* ═══ 팝업 ═══ */
@@ -282,13 +309,13 @@ textarea.f{resize:vertical;min-height:78px;line-height:1.8;}
   padding:20px 22px 14px;border-bottom:1px solid var(--line);
   position:sticky;top:0;background:var(--paper);z-index:2;
 }
-.modal-head h3{font-family:var(--serif);font-size:16px;color:var(--ink);margin:0;font-weight:400;}
+.modal-head h3{font-family:var(--serif);font-size:15px;color:var(--ink);margin:0;font-weight:400;}
 .modal-x{background:none;border:0;font-size:22px;color:var(--ink-faint);cursor:pointer;padding:0 2px;}
 .modal-body{padding:4px 22px 24px;}
 
 /* ═══ 맺음 ═══ */
 .outro{padding:48px 26px 60px;}
-.outro .line{font-family:var(--serif);font-size:16px;color:var(--ink);letter-spacing:.05em;}
+.outro .line{font-family:var(--serif);font-size:14px;color:var(--ink);letter-spacing:.05em;}
 .footnote{font-size:11.5px;color:var(--ink-faint);margin-top:28px;}
 
 .demo{background:var(--ink);color:var(--paper);font-size:11.5px;
@@ -302,6 +329,13 @@ textarea.f{resize:vertical;min-height:78px;line-height:1.8;}
   #snow{display:none;}
   .modal-box{animation:none;}
 }
+/* 가는 고딕용 굵기 조정 */
+.title,.greet,.couple-line,.person .nm,.when-block,.venue-name,
+.notice h3,.acc-head,.entry .who,.outro .line,.dday,.modal-head h3{
+  font-weight:200;letter-spacing:.01em;
+}
+.couple-line,.person .nm,.venue-name,.when-block{letter-spacing:.02em;}
+
 #snow{
   position:fixed;inset:0;width:100%;height:100%;
   pointer-events:none;z-index:95;
@@ -415,13 +449,13 @@ textarea.f{resize:vertical;min-height:78px;line-height:1.8;}
       <button class="btn" id="openAll">전체보기</button>
       <button class="btn" id="openWrite">작성</button>
     </div>
+    <button class="admin-link" id="openAdmin">관리</button>
   </section>
 
   <!-- 맺음 -->
   <section class="outro band rv">
     <div class="line" id="outroLine"></div>
     <button class="btn" id="shareBtn" style="margin-top:34px;">청첩장 링크 복사</button>
-    <div class="footnote">이 청첩장은 두 사람이 직접 만들었습니다.</div>
   </section>
 </div>
 
@@ -504,6 +538,21 @@ textarea.f{resize:vertical;min-height:78px;line-height:1.8;}
   </div>
 </div>
 
+<!-- 방명록 관리 팝업 -->
+<div class="modal" id="mAdmin">
+  <div class="modal-box">
+    <div class="modal-head"><h3>방명록 관리</h3><button class="modal-x" data-close>×</button></div>
+    <div class="modal-body">
+      <p style="font-size:13px;color:var(--ink-faint);margin-top:14px;">
+        관리자 번호를 입력하면 방명록 글 옆에 삭제 버튼이 나타납니다.</p>
+      <label class="f" for="aKey">관리자 번호</label>
+      <input class="f" id="aKey" type="password" inputmode="numeric" autocomplete="off">
+      <button class="btn btn-solid btn-wide" id="aSend" style="margin-top:20px;">확인</button>
+      <div class="msg" id="aMsg"></div>
+    </div>
+  </div>
+</div>
+
 <!-- 개인정보 안내 팝업 -->
 <div class="modal" id="mPrivacy">
   <div class="modal-box">
@@ -542,7 +591,7 @@ const CONFIG = {
   /* ④ 눈 내리는 효과 — 끄고 싶으면 true를 false로 */
   snow: true,
   snowCount: 55,               // 눈송이 개수
-  snowColor: "242,210,222",    // 눈 색 (흰 배경이라 연한 분홍)
+  snowColor: "252,214,221",    // 눈 색 (흰 배경이라 연한 핑크코랄)
 
   groom: {
     name: "황태현", father: "황윤섭", mother: "유미진",
@@ -557,7 +606,7 @@ const CONFIG = {
     name: "정세빈", father: "정영로", mother: "이선화",
     relation: "장녀", phone: "010-8765-4321",
     accounts: [
-      { who: "신부 정세빈",   bank: "우리은행", num: "1002-345-678901" },
+      { who: "신부 정세빈",   bank: "신한은행", num: "110-380-057951" },
       { who: "아버지 정영로", bank: "농협",     num: "302-1234-5678-91" },
       { who: "어머니 이선화", bank: "기업은행", num: "010-2345-6789-01" }
     ]
@@ -590,7 +639,7 @@ const CONFIG = {
   /* ⑥ 안내 문구 — 필요 없으면 title을 빈 따옴표로 두세요 */
   notice: {
     title: "화환은 정중히 사양합니다.",
-    text: "축하의 마음만 감사히 받겠습니다.\n너른 양해 부탁드립니다."
+    text: "예식장 사정상 화환 반입이 어려워\n부득이하게 사양하게 되었습니다.\n\n축하해 주시는 마음만으로도\n충분히 감사하고 기쁩니다.\n너른 양해 부탁드립니다."
   },
 
   outro: "귀한 걸음 하시어\n두 사람의 시작을 함께해 주세요.",
@@ -967,13 +1016,81 @@ async function renderBook(sel, limit){
     box.innerHTML = `<div class="empty">아직 작성된 방명록이 없습니다.<br>첫 방명록을 작성해주세요.</div>`;
     return;
   }
-  box.innerHTML = rows.slice(0, limit).map(r => {
+  box.innerHTML = rows.slice(0, limit).map((r, i) => {
     const d = new Date(r.at || Date.now());
-    return `<div class="entry">
+    const del = adminKey
+      ? `<button class="del" data-row="${r.row || ""}" data-i="${i}">삭제</button>` : "";
+    return `<div class="entry">${del}
       <span class="who">${esc(r.name)}</span>
       <span class="at">${d.getFullYear()}. ${d.getMonth()+1}. ${d.getDate()}</span>
       <p class="what">${esc(r.text)}</p></div>`;
   }).join("");
+
+  box.querySelectorAll(".del").forEach(b =>
+    b.onclick = () => removeEntry(b.dataset.row, b.dataset.i));
+}
+
+/* ───── 관리자 — 방명록 삭제 ───── */
+let adminKey = null;
+
+function setupAdmin(){
+  $("#openAdmin").onclick = async () => {
+    if (adminKey){                       // 이미 켜져 있으면 끄기
+      adminKey = null;
+      $("#openAdmin").textContent = "관리";
+      await refreshBooks();
+      toast("관리자 모드를 껐습니다");
+      return;
+    }
+    $("#aKey").value = ""; $("#aMsg").textContent = "";
+    openModal("#mAdmin");
+  };
+
+  $("#aSend").onclick = async () => {
+    const key = $("#aKey").value.trim();
+    const msg = $("#aMsg"), btn = $("#aSend");
+    if (!key) return fail(msg, "관리자 번호를 입력해 주세요.");
+
+    if (LIVE){
+      btn.disabled = true; btn.textContent = "확인 중";
+      try{
+        const r = await saveRow("admin", { key });
+        btn.disabled = false; btn.textContent = "확인";
+        if (!r || !r.ok) return fail(msg, "번호가 맞지 않습니다.");
+      }catch(e){
+        btn.disabled = false; btn.textContent = "확인";
+        return fail(msg, "확인에 실패했습니다. 잠시 후 다시 시도해 주세요.");
+      }
+    }
+    // 미리보기 상태에서는 시트가 없으므로 번호 확인 없이 열립니다
+    adminKey = key;
+    msg.className = "msg ok";
+    msg.textContent = LIVE ? "관리자 모드가 켜졌습니다." : "미리보기 모드로 열었습니다.";
+    $("#openAdmin").textContent = "관리자 모드 켜짐 — 끄기";
+    await refreshBooks();
+    setTimeout(() => closeModal($("#mAdmin")), 900);
+  };
+}
+
+async function removeEntry(row, i){
+  if (!confirm("이 방명록 글을 삭제할까요? 되돌릴 수 없습니다.")) return;
+  try{
+    if (LIVE){
+      const r = await saveRow("delete", { key: adminKey, row: Number(row) });
+      if (!r || !r.ok) return toast("삭제하지 못했습니다");
+    } else {
+      const all = readLocal("guestbook");
+      all.splice(Number(i), 1);
+      try{ localStorage.setItem("wed_guestbook", JSON.stringify(all)); }catch(e){}
+    }
+    await refreshBooks();
+    toast("삭제했습니다");
+  }catch(e){ toast("삭제하지 못했습니다"); }
+}
+
+async function refreshBooks(){
+  await renderBook("#book", 3);
+  if ($("#mAll").classList.contains("on")) await renderBook("#bookAll", 200);
 }
 
 /* ───── 등장 · 공유 ───── */
@@ -1019,7 +1136,7 @@ function setupSnow(){
   }
   function draw(){
     ctx.clearRect(0, 0, w, h);
-    ctx.shadowColor = "rgba(190,130,155,.30)";
+    ctx.shadowColor = "rgba(210,130,150,.28)";
     ctx.shadowBlur = 3;
     for (const f of flakes){
       f.y += f.vy;
@@ -1057,6 +1174,7 @@ setupModals();
 setupChips();
 setupRsvp();
 setupGuestbook();
+setupAdmin();
 setupReveal();
 setupShare();
 setupSnow();
