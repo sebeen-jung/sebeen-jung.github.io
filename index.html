@@ -287,7 +287,10 @@ p{line-height:1.72;margin:0 0 .8em;font-size:0.8125rem;}
 .notice-tab.on::after{
   content:"";position:absolute;left:0;right:0;bottom:-1px;height:2px;background:var(--accent);
 }
-.notice-panel{margin-top:30px;text-align:center;padding:0 4px;min-height:110px;}
+.notice-panel{
+  margin-top:30px;text-align:center;padding:0 4px;min-height:110px;
+  display:flex;align-items:center;justify-content:center;
+}
 .notice-desc{
   font-size:0.8125rem;line-height:2;color:var(--ink);
   word-break:keep-all;overflow-wrap:break-word;
