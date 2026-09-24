@@ -985,32 +985,47 @@ function buildCalendar(){
 const GAL = CONFIG.photos.gallery;
 let gi = 0;
 function buildGallery(){
-  $("#track").innerHTML = GAL.map((src,i)=>`
+  const real = GAL.map((src,i)=>`
     <div class="photo" data-i="${i}">
       ${src ? `<img src="${esc(src)}" alt="갤러리 ${i+1}" loading="lazy">`
             : `<div class="slot">사진 ${i+1}</div>`}
     </div>`).join("");
+  // 맨 뒤에 1번 사진의 복제본을 하나 몰래 붙여둡니다.
+  // 마지막 장에서 계속 넘기면 이 복제본으로 자연스럽게 이어지고,
+  // 화면엔 안 보이게 슬쩍 진짜 1번 위치로 바꿔치기합니다.
+  const clone0 = GAL[0];
+  const clone = `<div class="photo" data-i="0">
+      ${clone0 ? `<img src="${esc(clone0)}" alt="갤러리 1" loading="lazy">`
+               : `<div class="slot">사진 1</div>`}
+    </div>`;
+  $("#track").innerHTML = real + clone;
   $("#dots").innerHTML = GAL.map((_,i)=>`<div class="dot ${i===0?"on":""}"></div>`).join("");
 
   const track = $("#track");
   $$("#track .photo").forEach(el => el.onclick = () => openLb(+el.dataset.i));
   $("#gPrev").onclick = () => scrollTo(gi-1);
   $("#gNext").onclick = () => scrollTo(gi+1);
+
+  let resetTimer = null, settleTimer = null;
   track.addEventListener("scroll", () => {
-    const i = Math.round(track.scrollLeft / track.clientWidth);
-    if (i !== gi){ gi = i; syncDots(); }
+    const raw = Math.round(track.scrollLeft / track.clientWidth);
+    if (raw === GAL.length){
+      // 복제본(가짜 1번)에 도착 — 화면엔 1번이 보이는 채로, 위치만 몰래 되돌립니다
+      gi = 0;
+      clearTimeout(resetTimer);
+      resetTimer = setTimeout(() => {
+        track.style.scrollBehavior = "auto";
+        track.scrollLeft = 0;
+        track.style.scrollBehavior = "";
+      }, 200);
+    } else {
+      gi = raw;
+    }
+    // 점·숫자는 스크롤이 완전히 멈춘 뒤 한 번만 갱신합니다 (깜빡임 방지)
+    clearTimeout(settleTimer);
+    settleTimer = setTimeout(syncDots, 90);
   }, {passive:true});
   syncDots();
-
-  // 마지막 장에서 오른쪽으로 더 넘기려 하면 처음(1번)으로 돌아갑니다.
-  let tx0 = null;
-  track.addEventListener("touchstart", e => tx0 = e.touches[0].clientX, {passive:true});
-  track.addEventListener("touchend", e => {
-    if (tx0 === null) return;
-    const dx = e.changedTouches[0].clientX - tx0;
-    if (dx < -40 && gi === GAL.length - 1) scrollTo(0, true);
-    tx0 = null;
-  }, {passive:true});
 
   $("#lbClose").onclick = () => $("#lb").classList.remove("on");
   $("#lbPrev").onclick = () => moveLb(-1);
@@ -1037,10 +1052,15 @@ function buildGallery(){
     x0 = null;
   }, {passive:true});
 }
-function scrollTo(i, instant){
+function scrollTo(i){
   const track = $("#track");
+  if (i >= GAL.length){
+    // 마지막에서 다음으로 — 복제본 쪽으로 자연스럽게 이어서 넘어갑니다 (스크롤 리스너가 뒤에서 몰래 되돌려놓음)
+    track.scrollTo({ left: GAL.length * track.clientWidth, behavior:"smooth" });
+    return;
+  }
   gi = (i + GAL.length) % GAL.length;
-  track.scrollTo({ left: gi * track.clientWidth, behavior: instant ? "auto" : "smooth" });
+  track.scrollTo({ left: gi * track.clientWidth, behavior:"smooth" });
   syncDots();
 }
 function syncDots(){
