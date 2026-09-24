@@ -137,7 +137,7 @@ p{line-height:1.72;margin:0 0 .8em;font-size:0.8125rem;}
 @keyframes excl-dot{to{opacity:1;}}
 .hero-when{
   position:absolute;left:0;right:0;bottom:20px;color:#fff;font-size:0.6875rem;
-  letter-spacing:.22em;text-shadow:0 1px 12px rgba(0,0,0,.4);
+  letter-spacing:.22em;text-shadow:0 1px 12px rgba(0,0,0,.4);line-height:1.9;
   opacity:0;transform:translateY(14px);
   transition:opacity 1s ease, transform 1s ease;
 }
@@ -172,23 +172,43 @@ p{line-height:1.72;margin:0 0 .8em;font-size:0.8125rem;}
 
 /* ═══ 예식 안내 ═══ */
 .when-block{
-  border-top:1px solid var(--line);border-bottom:1px solid var(--line);
-  padding:20px 0;font-family:var(--serif);font-size:0.875rem;color:var(--ink);
+  padding:6px 0 4px;font-family:var(--serif);font-size:0.875rem;color:var(--ink);
   line-height:1.8;letter-spacing:.03em;
 }
-.cal{margin:24px auto 0;max-width:290px;padding:14px 0;
-     border-top:1px solid var(--line);border-bottom:1px solid var(--line);}
-.cal table{width:100%;border-collapse:collapse;font-size:0.75rem;}
-.cal th{font-weight:400;color:var(--ink-faint);font-size:0.6875rem;padding-bottom:10px;}
-.cal td{padding:5px 0;color:var(--ink-soft);position:relative;}
-.cal .sun{color:#B08080;}
-.cal .mark{color:#fff;font-weight:500;}
-.cal .mark::before{
-  content:"";position:absolute;left:50%;top:50%;width:30px;height:30px;
-  margin:-15px 0 0 -15px;background:var(--accent);border-radius:50%;
+/* ═══ 오시는 길 · 아코디언 ═══ */
+.way-acc{margin-top:22px;text-align:left;}
+.way-item{
+  border:1px solid var(--line);border-radius:3px;overflow:hidden;
+  background:var(--paper);margin-bottom:10px;
 }
-.cal .mark span{position:relative;}
-.dday{margin-top:16px;font-size:0.8125rem;color:var(--accent);font-family:var(--serif);}
+.way-item:last-child{margin-bottom:0;}
+.way-head{
+  width:100%;display:flex;align-items:center;justify-content:space-between;
+  background:none;border:0;padding:15px 16px;cursor:pointer;text-align:left;
+  font-family:var(--serif);font-size:0.8281rem;color:var(--ink);letter-spacing:.02em;
+}
+.way-head-l{display:flex;align-items:center;gap:11px;}
+.way-icon{
+  flex:0 0 auto;width:30px;height:30px;border-radius:50%;
+  background:var(--paper-deep);color:var(--accent-2);
+  display:flex;align-items:center;justify-content:center;
+}
+.way-icon svg{width:15px;height:15px;}
+.way-head .chev{width:15px;height:15px;flex:0 0 auto;color:var(--ink-faint);transition:transform .3s ease;}
+.way-item.on .way-head .chev{transform:rotate(180deg);}
+.way-body{display:grid;grid-template-rows:0fr;transition:grid-template-rows .32s ease;}
+.way-item.on .way-body{grid-template-rows:1fr;}
+.way-body-inner{
+  overflow:hidden;padding:0 16px;
+  font-size:0.7656rem;line-height:1.78;color:var(--ink-soft);
+  word-break:keep-all;overflow-wrap:break-word;
+}
+.way-item.on .way-body-inner{padding-bottom:16px;}
+.way-link{display:block;margin-top:10px;color:var(--accent-2);}
+.way-note{
+  margin-top:14px;font-size:0.75rem;line-height:1.75;color:var(--ink-faint);
+  text-align:left;word-break:keep-all;
+}
 
 /* ═══ 갤러리 ═══ */
 .slider{position:relative;}
@@ -253,6 +273,26 @@ p{line-height:1.72;margin:0 0 .8em;font-size:0.8125rem;}
 .info-list dt{font-family:var(--serif);font-size:0.875rem;color:var(--ink);font-size:0.8125rem;padding-top:14px;}
 .info-list dd{margin:5px 0 13px;font-size:0.7812rem;line-height:1.68;}
 
+/* ═══ 안내사항 카드 ═══ */
+.notice-tabs{
+  margin-top:26px;display:grid;grid-template-columns:repeat(3,1fr);
+  border-bottom:1px solid var(--line);
+}
+.notice-tab{
+  background:none;border:0;padding:0 4px 15px;cursor:pointer;
+  font-family:var(--serif);font-size:0.8438rem;color:var(--ink-faint);
+  text-align:center;position:relative;transition:color .2s;
+}
+.notice-tab.on{color:var(--accent-2);}
+.notice-tab.on::after{
+  content:"";position:absolute;left:0;right:0;bottom:-1px;height:2px;background:var(--accent);
+}
+.notice-panel{margin-top:30px;text-align:center;padding:0 4px;min-height:110px;}
+.notice-desc{
+  font-size:0.8125rem;line-height:2;color:var(--ink);
+  word-break:keep-all;overflow-wrap:break-word;
+}
+
 /* ═══ 화환 안내 ═══ */
 .notice{
   background:var(--field);border:1px solid var(--line);
@@ -294,6 +334,8 @@ textarea.f{resize:vertical;min-height:56px;line-height:1.65;}
   border-radius:2px;transition:.18s;
 }
 .chip[aria-pressed="true"]{background:var(--accent);border-color:var(--accent);color:#fff;}
+.attend-chips{flex-direction:column;}
+.attend-chips .chip{flex:none;text-align:left;padding:12px 14px;}
 
 .agree{display:flex;align-items:center;gap:9px;margin-top:14px;font-size:0.8125rem;text-align:left;}
 .agree input{width:17px;height:17px;accent-color:var(--accent);flex:0 0 auto;}
@@ -495,24 +537,16 @@ textarea.f{resize:vertical;min-height:56px;line-height:1.65;}
   </section>
 
   <!-- 신랑 · 신부 -->
-  <section class="band rv">
+  <section class="rv">
     <h2 class="title">신랑 · 신부</h2>
     <div id="people"></div>
   </section>
 
-  <!-- 예식 안내 -->
-  <section class="rv">
+  <!-- 예식 안내 · 오시는 길 -->
+  <section class="band rv">
     <h2 class="title">예식 안내</h2>
     <div class="when-block" id="whenBlock"></div>
-    <div class="cal" id="cal"></div>
-    <div class="dday" id="dday"></div>
-  </section>
-
-  <!-- 오시는 길 -->
-  <section class="band rv">
-    <h2 class="title">오시는 길</h2>
-    <div class="venue-name" id="venueName"></div>
-    <div class="venue-addr" id="venueAddr"></div>
+    <div class="venue-addr" id="venueAddr" style="margin-top:2px;"></div>
     <div id="map"></div>
     <div class="map-btns">
       <button class="btn" id="btnTmap">티맵</button>
@@ -521,15 +555,9 @@ textarea.f{resize:vertical;min-height:56px;line-height:1.65;}
     </div>
     <div class="map-btns" style="margin-top:7px;">
       <button class="btn" id="copyAddr">주소 복사</button>
-      <button class="btn" id="callVenue">예식장 전화</button>
     </div>
-    <dl class="info-list" id="wayList"></dl>
-  </section>
-
-  <!-- 안내사항 -->
-  <section class="band rv">
-    <h2 class="title">안내사항</h2>
-    <dl class="info-list" id="noteList" style="margin-top:0;border-top:1px solid var(--line);"></dl>
+    <div class="way-acc" id="wayList"></div>
+    <p class="way-note">예식은 디큐브시티 41층 더세인트에서 진행됩니다.<br>6층에는 다른 홀이 있으니 혼동없으시기 바랍니다.</p>
   </section>
 
   <!-- 갤러리 -->
@@ -544,8 +572,15 @@ textarea.f{resize:vertical;min-height:56px;line-height:1.65;}
     <div class="counter" id="gCount"></div>
   </section>
 
-  <!-- 화환 안내 -->
+  <!-- 안내사항 -->
   <section class="band rv">
+    <h2 class="title">안내사항</h2>
+    <div class="notice-tabs" id="noteTabs"></div>
+    <div class="notice-panel" id="notePanel"></div>
+  </section>
+
+  <!-- 화환 안내 -->
+  <section class="rv">
     <div class="notice">
       <h3 id="noticeTitle"></h3>
       <p id="noticeText"></p>
@@ -553,25 +588,16 @@ textarea.f{resize:vertical;min-height:56px;line-height:1.65;}
   </section>
 
   <!-- 마음 전하실 곳 -->
-  <section class="rv">
+  <section class="band rv">
     <h2 class="title">마음 전하실 곳</h2>
     <p class="lead" id="giftText"></p>
     <div id="accounts" style="margin-top:22px;"></div>
   </section>
 
   <!-- 참석 여부 -->
-  <section class="band rv">
-    <h2 class="title">참석 여부 전달</h2>
-    <p class="lead">
-      소중한 시간을 내어 결혼식에 참석해주시는 모든 분들께 감사드립니다.<br>
-      참석 여부를 회신해 주시면 더욱 감사하겠습니다.
-    </p>
-    <button class="btn btn-solid" id="openRsvp" style="margin-top:14px;">참석 여부 전달</button>
-  </section>
-
   <!-- 버진로드 꾸며주기 -->
   <section class="rv">
-    <h2 class="title">버진로드 꾸며주기</h2>
+    <h2 class="title">버진로드 꾸미기</h2>
     <p class="lead">축하 한마디를 남기시면<br>두 사람이 걸어갈 길에 꽃이 한 송이 놓입니다.</p>
     <div class="aisle" id="aisle">
       <div id="aisleSvg"></div>
@@ -585,8 +611,17 @@ textarea.f{resize:vertical;min-height:56px;line-height:1.65;}
     <button class="admin-link" id="openAdmin">관리</button>
   </section>
 
+  <section class="band rv">
+    <h2 class="title">참석 여부 전달</h2>
+    <p class="lead">
+      소중한 시간을 내어 축하해주시는 모든 분들께 감사드립니다.<br>
+      참석 여부를 회신해 주시면 더욱 감사하겠습니다.
+    </p>
+    <button class="btn btn-solid" id="openRsvp" style="margin-top:14px;">참석 여부 전달</button>
+  </section>
+
   <!-- 맺음 -->
-  <section class="outro band rv">
+  <section class="outro rv">
     <div class="line" id="outroLine"></div>
     <button class="btn" id="shareBtn" style="margin-top:34px;">청첩장 링크 복사</button>
     <button class="btn" id="kakaoShareBtn" style="margin-top:10px;">카카오톡으로 공유하기</button>
@@ -614,9 +649,9 @@ textarea.f{resize:vertical;min-height:56px;line-height:1.65;}
       </div>
 
       <label class="f">참석 여부<span class="req">*</span></label>
-      <div class="chips" data-group="attend">
-        <button class="chip" data-v="참석" aria-pressed="false">참석</button>
-        <button class="chip" data-v="불참석" aria-pressed="false">불참석</button>
+      <div class="chips attend-chips" data-group="attend">
+        <button class="chip" data-v="참석" aria-pressed="false">기쁜 마음으로 참석할게요</button>
+        <button class="chip" data-v="불참석" aria-pressed="false">축하의 마음만 전할게요</button>
       </div>
 
       <label class="f">식사 여부<span class="req">*</span></label>
@@ -684,7 +719,7 @@ textarea.f{resize:vertical;min-height:56px;line-height:1.65;}
     <div class="modal-body" style="padding-top:20px;">
       <p style="font-size:0.875rem;margin-bottom:6px;">참석 여부를 아직 남기지 않으셨습니다.</p>
       <p style="font-size:0.8125rem;color:var(--ink-faint);">
-        식사와 좌석을 미리 준비해야 해서, 짧게라도 남겨주시면 큰 도움이 됩니다.<br>
+        남겨주시면 식사 준비에 참고하겠습니다.<br>
         참석이 어려우셔도 알려주시면 감사하겠습니다.</p>
       <div style="display:flex;gap:8px;margin-top:22px;">
         <button class="btn" style="flex:1;" id="nagClose">닫기</button>
@@ -785,7 +820,7 @@ const CONFIG = {
   heroScript: "We're getting married!",
 
   /* ④ 눈 내리는 효과 — 끄고 싶으면 true를 false로 */
-  snow: true,
+  snow: false,
   snowCount: 55,               // 눈송이 개수
   snowColor: "234,222,196",    // 눈 색 (흰 배경이라 연한 베이지)
 
@@ -821,16 +856,17 @@ const CONFIG = {
   },
 
   way: [
-    { t: "지하철", d: "1·2호선 신도림역과 바로 연결되어 있습니다." },
-    { t: "자차",   d: "디큐브시티 주차장 진입 후 6·7·8번 기둥 구역에 주차하시면\n41층 전용 엘리베이터 이용이 편리합니다.\n1,700대 주차 가능, 3시간 무료이며 홀에서 직접 등록해 주세요." },
-    { t: "오시는 길 영상", d: "더세인트 유튜브 채널에서 오시는 길을 영상으로 확인하실 수 있습니다.", link: "https://www.youtube.com/@더세인트-g9g" }
+    { t: "지하철", d: "신도림역 1·2호선에서 하차 후, 이정표를 따라서 디큐브시티 방향으로 이동해 주세요.\n역에서 건물로 바로 연결되어 있어, 대중교통으로도 편하게 오실 수 있습니다.",
+      link: "https://youtu.be/Fnf7AR8pIPw?si=SMak9Wggjq8UpP8r" },
+    { t: "자가용", d: "6·7·8번 기둥 구역에 주차하시면 엘리베이터를 이용하시기 편리합니다.\n주차는 3시간 무료이며, 라운지에 마련된 태블릿에서 차량번호를 등록해 주시기 바랍니다.\n※ 주차 공간은 약 1,700대 규모입니다.",
+      link: "https://youtu.be/MHSme0CycRw?si=mb6w762xRW6XvF3F" }
   ],
 
   // 예식 안내사항 — 오시는 길과 별도로, 그 아래 구역에 따로 안내됩니다
   info: [
-    { t: "엘리베이터", d: "고층 예식장이라 시간대에 따라 대기가 있을 수 있습니다.\n예식 시작 10~15분 전에는 도착해 주시면 여유롭습니다." },
-    { t: "식사",   d: "한상차림과 세미뷔페로 준비하였습니다." },
-    { t: "웰컴드링크", d: "예식 전 로비에서 이용하실 수 있습니다." }
+    { t: "엘리베이터", d: "고층에 위치한 예식장 특성상\n엘리베이터 이용에 다소 시간이 소요될 수 있습니다.\n원활한 참석을 위해 예식 시작 10~15분 전까지 도착해 주시면 감사하겠습니다." },
+    { t: "웰컴드링크", d: "아름다운 풍경을 감상하실 수 있는 라운지에 웰컴드링크를 준비하였습니다.\n예식 전 잠시 여유로운 시간을 보내시기 바랍니다." },
+    { t: "식사",   d: "1인 한상차림(갈비탕)과 세미뷔페로 준비하였습니다.\n식사는 10:30 ~ 12:30\n7~8층 연회장에서 이용하실 수 있습니다.\n귀한 걸음 해주신 모든 분들께 진심으로 감사드립니다." }
   ],
 
   greeting:
@@ -843,10 +879,10 @@ const CONFIG = {
   /* ⑥ 안내 문구 — 필요 없으면 title을 빈 따옴표로 두세요 */
   notice: {
     title: "화환은 정중히 사양합니다.",
-    text: "예식장 사정상 화환 반입이 어려워\n부득이하게 사양하게 되었습니다.\n\n축하해 주시는 마음만으로도\n충분히 감사하고 기쁩니다.\n너른 양해 부탁드립니다."
+    text: "예식장 사정상 화환 반입이 어려워\n부득이하게 사양하게 되었습니다.\n\n축하해 주시는 마음만으로도\n충분히 감사드리며 너른 양해 부탁드립니다."
   },
 
-  outro: "귀한 걸음 하시어\n두 사람의 시작을 함께해 주세요.",
+  outro: "귀한 걸음 하시어\n두 사람의 시작을 함께해 주시면 감사드리겠습니다.",
 
   /* ⑦ 사진 — 파일을 받으면 따옴표 안에 경로를 넣습니다
         예: hero: "photos/hero.jpg"
@@ -904,8 +940,9 @@ function fillText(){
   if (P.hero) hero.insertAdjacentHTML("afterbegin", `<img src="${esc(P.hero)}" alt="대표 사진">`);
   else hero.insertAdjacentHTML("afterbegin", `<div class="slot">대표 사진이 들어갈 자리</div>`);
 
-  $("#heroWhen").textContent =
-    `${D.getFullYear()}. ${String(D.getMonth()+1).padStart(2,"0")}. ${String(D.getDate()).padStart(2,"0")}`;
+  $("#heroWhen").innerHTML =
+    `${D.getFullYear()}. ${String(D.getMonth()+1).padStart(2,"0")}. ${String(D.getDate()).padStart(2,"0")}` +
+    `<br><span style="opacity:.82;">THE SAINT</span>`;
 
   // 인사말
   $("#coupleLine").innerHTML =
@@ -932,14 +969,41 @@ function fillText(){
     `${esc(v.name)} ${esc(v.hall)}`;
 
   // 오시는 길
-  $("#venueName").textContent = `${v.name} ${v.hall}`;
   $("#venueAddr").textContent = v.address;
-  const wayRow = w => {
-    const extra = w.link ? `<br><a href="${esc(w.link)}" target="_blank" rel="noopener" style="color:var(--accent-2);">채널 바로가기 ›</a>` : "";
-    return `<dt>${esc(w.t)}</dt><dd>${br(w.d)}${extra}</dd>`;
+  const WAY_ICONS = {
+    "지하철": `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round"><rect x="4" y="4" width="16" height="13" rx="4"/><path d="M4 13h16M9 20l-2 2M15 20l2 2"/><circle cx="8.5" cy="9.5" r=".6" fill="currentColor" stroke="none"/><circle cx="15.5" cy="9.5" r=".6" fill="currentColor" stroke="none"/></svg>`,
+    "자가용": `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round"><path d="M4 16v-3l2-5h12l2 5v3"/><path d="M4 16h16M6 16v2.5M18 16v2.5"/><circle cx="8" cy="18.5" r="1.4"/><circle cx="16" cy="18.5" r="1.4"/></svg>`
   };
-  $("#wayList").innerHTML = CONFIG.way.map(wayRow).join("");
-  $("#noteList").innerHTML = CONFIG.info.map(wayRow).join("");
+  $("#wayList").innerHTML = CONFIG.way.map((w,i) => {
+    const extra = w.link ? `<a href="${esc(w.link)}" target="_blank" rel="noopener" class="way-link">오시는 길 영상 보기 ›</a>` : "";
+    return `
+    <div class="way-item" data-i="${i}">
+      <button class="way-head" type="button">
+        <span class="way-head-l">
+          <span class="way-icon">${WAY_ICONS[w.t] || ""}</span>
+          <span>${esc(w.t)}</span>
+        </span>
+        <svg class="chev" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"><path d="M6 9l6 6 6-6"/></svg>
+      </button>
+      <div class="way-body"><div class="way-body-inner">${br(w.d)}${extra}</div></div>
+    </div>`;
+  }).join("");
+  $$("#wayList .way-head").forEach(btn =>
+    btn.onclick = () => btn.closest(".way-item").classList.toggle("on"));
+
+  $("#noteTabs").innerHTML = CONFIG.info.map((n,i) => `
+    <button class="notice-tab ${i===0?"on":""}" data-i="${i}" type="button">${esc(n.t)}</button>`).join("");
+
+  function renderNotePanel(i){
+    const n = CONFIG.info[i];
+    $("#notePanel").innerHTML = `<div class="notice-desc">${br(n.d)}</div>`;
+  }
+  $$("#noteTabs .notice-tab").forEach(tab =>
+    tab.onclick = () => {
+      $$("#noteTabs .notice-tab").forEach(t => t.classList.toggle("on", t === tab));
+      renderNotePanel(+tab.dataset.i);
+    });
+  renderNotePanel(0);
 
   // 안내 문구
   if (CONFIG.notice.title){
@@ -954,33 +1018,6 @@ function fillText(){
 }
 
 /* ───── 달력 ───── */
-function buildCalendar(){
-  const y = D.getFullYear(), m = D.getMonth(), target = D.getDate();
-  const first = new Date(y,m,1).getDay(), last = new Date(y,m+1,0).getDate();
-  let cells = Array(first).fill("").concat(Array.from({length:last},(_,i)=>i+1));
-  while (cells.length % 7) cells.push("");
-
-  let html = "<table><thead><tr>" +
-    DAY.map((d,i)=>`<th class="${i===0?"sun":""}">${d}</th>`).join("") + "</tr></thead><tbody>";
-  for (let i=0;i<cells.length;i+=7){
-    html += "<tr>" + cells.slice(i,i+7).map((d,j)=>{
-      if (d==="") return "<td></td>";
-      const cls = [j===0?"sun":"", d===target?"mark":""].join(" ").trim();
-      return `<td class="${cls}"><span>${d}</span></td>`;
-    }).join("") + "</tr>";
-  }
-  $("#cal").innerHTML = html + "</tbody></table>";
-
-  const t = new Date(); t.setHours(0,0,0,0);
-  const w = new Date(D); w.setHours(0,0,0,0);
-  const left = Math.round((w-t)/86400000);
-  const nm = `${CONFIG.groom.name.slice(1)}, ${CONFIG.bride.name.slice(1)}`;
-  $("#dday").textContent =
-    left > 0 ? `${nm}의 결혼식이 ${left}일 남았습니다.` :
-    left === 0 ? `오늘은 ${nm}의 결혼식입니다.` :
-                 `${nm}의 결혼식이 ${-left}일 지났습니다.`;
-}
-
 /* ───── 갤러리 ───── */
 const GAL = CONFIG.photos.gallery;
 let gi = 0;
@@ -1084,7 +1121,6 @@ function setupMap(){
   const q = encodeURIComponent(`${v.name} ${v.address}`);
 
   $("#copyAddr").onclick = () => copy(v.address).then(()=>toast("주소가 복사되었습니다"));
-  $("#callVenue").onclick = () => location.href = `tel:${v.tel}`;
   $("#btnNaver").onclick = () => window.open(`https://map.naver.com/p/search/${q}`, "_blank");
   $("#btnKakaoNavi").onclick = () =>
     window.open(`https://map.kakao.com/link/to/${encodeURIComponent(v.name)},${v.lat},${v.lng}`, "_blank");
@@ -1479,14 +1515,15 @@ function setupRsvpAuto(){
   const btn = $("#openRsvp");
   if (!btn) return;
 
+  const NEAR_BOTTOM = 40;   // 페이지 맨 아래에서 이 정도(px) 남았을 때를 "다 내렸다"로 봅니다
   let done = false, ticking = false;
 
   function check(){
     if (done) return;
     if ($("#rSend").disabled){ done = true; cleanup(); return; }  // 이미 보냈으면 그만둡니다
-    const r = btn.getBoundingClientRect();
-    const mid = window.innerHeight / 2;
-    if (r.top <= mid && r.bottom >= mid){
+    const scrolledToEnd =
+      window.innerHeight + window.scrollY >= document.documentElement.scrollHeight - NEAR_BOTTOM;
+    if (scrolledToEnd){
       done = true; cleanup();
       if (!document.querySelector(".modal.on")) openModal("#mRsvp");
     }
@@ -1757,7 +1794,6 @@ function setupSnow(){
 
 /* ───── 시작 ───── */
 fillText();
-buildCalendar();
 buildGallery();
 setupMap();
 buildAccounts();
