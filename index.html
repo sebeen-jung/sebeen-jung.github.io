@@ -222,7 +222,7 @@ p{line-height:1.72;margin:0 0 .8em;font-size:0.8125rem;}
 }
 .lb-btn{position:absolute;background:none;border:0;color:#fff;font-size:1.875rem;
   padding:16px;cursor:pointer;opacity:.75;font-family:var(--serif);z-index:5;}
-.lb-prev{left:0;} .lb-next{right:0;} .lb-close{top:6px;left:6px;font-size:1.5625rem;}
+.lb-prev{left:0;} .lb-next{right:0;} .lb-close{top:6px;right:6px;font-size:1.5625rem;}
 .lb-count{position:absolute;bottom:30px;color:#fff;font-size:0.8125rem;opacity:.7;letter-spacing:.1em;}
 
 /* ═══ 오시는 길 ═══ */
@@ -420,7 +420,7 @@ textarea.f{resize:vertical;min-height:56px;line-height:1.65;}
 .fontctl{
   position:fixed;z-index:150;
   top:calc(env(safe-area-inset-top, 0px) + 10px);
-  right:calc(env(safe-area-inset-right, 0px) + 10px);
+  left:calc(env(safe-area-inset-left, 0px) + 10px);
   display:flex;align-items:center;justify-content:center;gap:2px;padding:3px;
   background:rgba(255,255,255,.82);backdrop-filter:blur(6px);
   border:1px solid var(--line);border-radius:20px;
@@ -437,7 +437,7 @@ textarea.f{resize:vertical;min-height:56px;line-height:1.65;}
 .fontctl button[data-size="22"]{font-size:17px;}
 .fontctl button.on{background:var(--accent);color:#fff;}
 .fontctl-tip{
-  position:absolute;top:calc(100% + 8px);right:0;
+  position:absolute;top:calc(100% + 8px);left:0;
   background:var(--ink);color:var(--paper);font-size:.75rem;line-height:1.6;
   padding:8px 12px;border-radius:6px;white-space:nowrap;
   opacity:0;transform:translateY(-4px);
@@ -445,7 +445,7 @@ textarea.f{resize:vertical;min-height:56px;line-height:1.65;}
   pointer-events:none;
 }
 .fontctl-tip::before{
-  content:"";position:absolute;right:14px;top:-4px;
+  content:"";position:absolute;left:14px;top:-4px;
   width:8px;height:8px;background:var(--ink);transform:rotate(45deg);
 }
 .fontctl-tip.show{opacity:.95;transform:none;}
@@ -1533,7 +1533,7 @@ function setupKakaoShare(){
   if (!Kakao.isInitialized()) Kakao.init(CONFIG.KAKAO_KEY);
 
   const PAGE_URL = "https://sebeen-jung.github.io/";
-  const OG_IMAGE = "https://sebeen-jung.github.io/photos/kakao-share.jpg";
+  const OG_IMAGE = "https://sebeen-jung.github.io/photos/kakao-share.jpg?v=2";
   const v = CONFIG.venue;
 
   btn.onclick = () => {
