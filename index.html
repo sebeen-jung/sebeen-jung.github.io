@@ -1499,7 +1499,7 @@ function setupKakaoShare(){
   if (!Kakao.isInitialized()) Kakao.init(CONFIG.KAKAO_KEY);
 
   const PAGE_URL = "https://sebeen-jung.github.io/";
-  const OG_IMAGE = "https://sebeen-jung.github.io/photos/og-image.jpg";
+  const OG_IMAGE = "https://sebeen-jung.github.io/photos/kakao-share.jpg";
   const v = CONFIG.venue;
   const mapUrl = `https://map.kakao.com/link/map/${encodeURIComponent(v.name)},${v.lat},${v.lng}`;
 
@@ -1512,6 +1512,8 @@ function setupKakaoShare(){
           `${D.getFullYear()}년 ${D.getMonth()+1}월 ${D.getDate()}일 ${DAY[D.getDay()]}요일 ${timeText()}\n` +
           `${v.name} ${v.hall}`,
         imageUrl: OG_IMAGE,
+        imageWidth: 800,
+        imageHeight: 989,
         link: { mobileWebUrl: PAGE_URL, webUrl: PAGE_URL }
       },
       buttons: [
