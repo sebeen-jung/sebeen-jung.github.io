@@ -101,6 +101,7 @@ p{line-height:1.72;margin:0 0 .8em;font-size:0.8125rem;}
 /* 사진 자리 */
 .photo{position:relative;background:linear-gradient(150deg,#F1E9DA,#E3D6BE);overflow:hidden;}
 .photo img{width:100%;height:100%;object-fit:cover;}
+.person.b .photo img{object-position:center 20%;}   /* 신부 사진만 살짝 더 위쪽이 보이게 */
 .photo .slot{
   position:absolute;inset:0;display:flex;align-items:center;justify-content:center;
   font-size:0.7188rem;color:rgba(58,50,54,.42);letter-spacing:.06em;text-align:center;
@@ -190,18 +191,29 @@ p{line-height:1.72;margin:0 0 .8em;font-size:0.8125rem;}
 .dday{margin-top:16px;font-size:0.8125rem;color:var(--accent);font-family:var(--serif);}
 
 /* ═══ 갤러리 ═══ */
-.grid{display:grid;grid-template-columns:repeat(3,1fr);gap:3px;padding:0 3px;}
-.grid .cell{
-  aspect-ratio:1;border:0;padding:0;cursor:pointer;background:none;
-  overflow:hidden;position:relative;
+.slider{position:relative;}
+.track{
+  display:flex;overflow-x:auto;scroll-snap-type:x mandatory;
+  scrollbar-width:none;-ms-overflow-style:none;
 }
-.grid .cell img{width:100%;height:100%;object-fit:cover;display:block;transition:transform .3s ease;}
-.grid .cell:active img{transform:scale(1.06);}
-.grid .cell .slot{
+.track::-webkit-scrollbar{display:none;}
+.track .photo{flex:0 0 100%;scroll-snap-align:center;aspect-ratio:4/5;cursor:pointer;background:var(--paper);}
+.track .photo img{width:100%;height:100%;object-fit:contain;display:block;}
+.track .photo .slot{
   width:100%;height:100%;display:flex;align-items:center;justify-content:center;
   background:linear-gradient(150deg,#F1E9DA,#E3D6BE);
   font-size:0.6875rem;color:rgba(58,50,54,.42);
 }
+.nav{
+  position:absolute;top:50%;transform:translateY(-50%);
+  background:rgba(255,255,255,.6);border:0;width:34px;height:52px;
+  font-size:1.5rem;color:#6B6166;cursor:pointer;font-family:var(--serif);
+}
+.nav.prev{left:0;} .nav.next{right:0;}
+.dots{display:flex;gap:6px;justify-content:center;margin-top:12px;}
+.dot{width:5px;height:5px;border-radius:50%;background:var(--line);transition:.25s;}
+.dot.on{background:var(--accent);width:16px;border-radius:3px;}
+.counter{margin-top:8px;font-size:0.7188rem;color:var(--ink-faint);letter-spacing:.1em;}
 
 .lightbox{position:fixed;inset:0;background:rgba(38,31,34,.96);display:none;
   align-items:center;justify-content:center;z-index:120;}
@@ -523,7 +535,13 @@ textarea.f{resize:vertical;min-height:56px;line-height:1.65;}
   <!-- 갤러리 -->
   <section class="rv flush">
     <h2 class="title">갤러리</h2>
-    <div class="grid" id="grid"></div>
+    <div class="slider">
+      <div class="track" id="track"></div>
+      <button class="nav prev" id="gPrev">‹</button>
+      <button class="nav next" id="gNext">›</button>
+    </div>
+    <div class="dots" id="dots"></div>
+    <div class="counter" id="gCount"></div>
   </section>
 
   <!-- 화환 안내 -->
@@ -838,7 +856,7 @@ const CONFIG = {
     couple:  COUPLE_PHOTO,   // 버진로드 위 신랑·신부 사진 — 코드 안에 직접 담겨 있어 파일 업로드 없이 항상 보입니다
     groom:   GROOM_PHOTO,   // 신랑 소개 사진 — 코드 안에 직접 담겨 있습니다
     bride:   BRIDE_PHOTO,   // 신부 소개 사진 — 코드 안에 직접 담겨 있습니다
-    gallery: [GAL_10, GAL_11, GAL_8, GAL_4, GAL_15, GAL_2, GAL_1, GAL_7, GAL_9, GAL_6, GAL_13, GAL_5, GAL_16, GAL_14, GAL_3, GAL_12]
+    gallery: [GAL_12, GAL_10, GAL_11, GAL_8, GAL_4, GAL_15, GAL_2, GAL_1, GAL_7, GAL_9, GAL_6, GAL_13, GAL_5, GAL_16, GAL_14, GAL_3]
   }
 };
 /* ═══════════ 설정 끝 ═══════════ */
@@ -965,14 +983,34 @@ function buildCalendar(){
 
 /* ───── 갤러리 ───── */
 const GAL = CONFIG.photos.gallery;
+let gi = 0;
 function buildGallery(){
-  $("#grid").innerHTML = GAL.map((src,i)=>`
-    <button class="cell" data-i="${i}" aria-label="갤러리 사진 ${i+1}, 누르면 크게 보기">
+  $("#track").innerHTML = GAL.map((src,i)=>`
+    <div class="photo" data-i="${i}">
       ${src ? `<img src="${esc(src)}" alt="갤러리 ${i+1}" loading="lazy">`
             : `<div class="slot">사진 ${i+1}</div>`}
-    </button>`).join("");
+    </div>`).join("");
+  $("#dots").innerHTML = GAL.map((_,i)=>`<div class="dot ${i===0?"on":""}"></div>`).join("");
 
-  $$("#grid .cell").forEach(el => el.onclick = () => openLb(+el.dataset.i));
+  const track = $("#track");
+  $$("#track .photo").forEach(el => el.onclick = () => openLb(+el.dataset.i));
+  $("#gPrev").onclick = () => scrollTo(gi-1);
+  $("#gNext").onclick = () => scrollTo(gi+1);
+  track.addEventListener("scroll", () => {
+    const i = Math.round(track.scrollLeft / track.clientWidth);
+    if (i !== gi){ gi = i; syncDots(); }
+  }, {passive:true});
+  syncDots();
+
+  // 마지막 장에서 오른쪽으로 더 넘기려 하면 처음(1번)으로 돌아갑니다.
+  let tx0 = null;
+  track.addEventListener("touchstart", e => tx0 = e.touches[0].clientX, {passive:true});
+  track.addEventListener("touchend", e => {
+    if (tx0 === null) return;
+    const dx = e.changedTouches[0].clientX - tx0;
+    if (dx < -40 && gi === GAL.length - 1) scrollTo(0, true);
+    tx0 = null;
+  }, {passive:true});
 
   $("#lbClose").onclick = () => $("#lb").classList.remove("on");
   $("#lbPrev").onclick = () => moveLb(-1);
@@ -998,6 +1036,16 @@ function buildGallery(){
     if (Math.abs(dx) > 45) moveLb(dx < 0 ? 1 : -1);
     x0 = null;
   }, {passive:true});
+}
+function scrollTo(i, instant){
+  const track = $("#track");
+  gi = (i + GAL.length) % GAL.length;
+  track.scrollTo({ left: gi * track.clientWidth, behavior: instant ? "auto" : "smooth" });
+  syncDots();
+}
+function syncDots(){
+  $$("#dots .dot").forEach((d,i)=>d.classList.toggle("on", i===gi));
+  $("#gCount").textContent = `${gi+1} / ${GAL.length}`;
 }
 let li = 0;
 function openLb(i){ li = i; renderLb(); $("#lb").classList.add("on"); }
