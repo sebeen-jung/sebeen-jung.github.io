@@ -16,7 +16,7 @@
      추천 크기: 가로 1200 x 세로 630 -->
 <meta property="og:image" content="https://sebeen-jung.github.io/photos/og-image.jpg">
 <meta property="og:image:width" content="1200">
-<meta property="og:image:height" content="630">
+<meta property="og:image:height" content="629">
 <meta name="twitter:card" content="summary_large_image">
 
 <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -221,7 +221,7 @@ p{line-height:1.72;margin:0 0 .8em;font-size:0.8125rem;}
   display:flex;align-items:center;justify-content:center;
 }
 .lb-btn{position:absolute;background:none;border:0;color:#fff;font-size:1.875rem;
-  padding:16px;cursor:pointer;opacity:.75;font-family:var(--serif);}
+  padding:16px;cursor:pointer;opacity:.75;font-family:var(--serif);z-index:5;}
 .lb-prev{left:0;} .lb-next{right:0;} .lb-close{top:6px;right:6px;font-size:1.5625rem;}
 .lb-count{position:absolute;bottom:30px;color:#fff;font-size:0.8125rem;opacity:.7;letter-spacing:.1em;}
 
@@ -571,6 +571,7 @@ textarea.f{resize:vertical;min-height:56px;line-height:1.65;}
   <section class="outro band rv">
     <div class="line" id="outroLine"></div>
     <button class="btn" id="shareBtn" style="margin-top:34px;">청첩장 링크 복사</button>
+    <button class="btn" id="kakaoShareBtn" style="margin-top:10px;">카카오톡으로 공유하기</button>
   </section>
 </div>
 
@@ -722,6 +723,7 @@ textarea.f{resize:vertical;min-height:56px;line-height:1.65;}
 
 <div class="toast" id="toast"></div>
 
+<script src="https://developers.kakao.com/sdk/js/kakao.js"></script>
 <script>
 /* ════════════════════════════════════════════════════════
    ★ 여기만 고치면 됩니다 ★
@@ -755,7 +757,7 @@ const COUPLE_PHOTO = "data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wBDAAM
 const CONFIG = {
 
   /* ① 구글 시트 연결 주소 — 비어 있으면 미리보기 모드 */
-  SHEET_URL: "",
+  SHEET_URL: "https://script.google.com/macros/s/AKfycbw52bH7Z1fx3ugs5OPQ0Xnxt6FX8_cc-NgbyBBEP6CLgmDvprmSYVixGmANvssHplh7/exec",
 
   /* ② 카카오 지도 키 — 비어 있으면 지도 자리에 안내문이 표시됩니다 */
   KAKAO_KEY: "80a0fd11fd8a6bed31054c6af0b84e06",
@@ -1481,6 +1483,41 @@ function setupShare(){
   };
 }
 
+/* ───── 카카오톡 공유 카드 ─────
+   주의: 이 버튼을 직접 눌러야만 아래 카드 모양(이미지·버튼)으로 나갑니다.
+   링크를 복사해서 채팅창에 그냥 붙여넣으면 이 카드가 아니라
+   기본 미리보기(og:image 등)로 나갑니다. */
+function setupKakaoShare(){
+  const btn = $("#kakaoShareBtn");
+  if (!btn) return;
+  if (!CONFIG.KAKAO_KEY || !window.Kakao){ btn.remove(); return; }
+
+  if (!Kakao.isInitialized()) Kakao.init(CONFIG.KAKAO_KEY);
+
+  const PAGE_URL = "https://sebeen-jung.github.io/";
+  const OG_IMAGE = "https://sebeen-jung.github.io/photos/og-image.jpg";
+  const v = CONFIG.venue;
+  const mapUrl = `https://map.kakao.com/link/map/${encodeURIComponent(v.name)},${v.lat},${v.lng}`;
+
+  btn.onclick = () => {
+    Kakao.Share.sendDefault({
+      objectType: "feed",
+      content: {
+        title: `${CONFIG.groom.name.slice(1)} ♥ ${CONFIG.bride.name.slice(1)} 결혼합니다.`,
+        description:
+          `${D.getFullYear()}년 ${D.getMonth()+1}월 ${D.getDate()}일 ${DAY[D.getDay()]}요일 ${timeText()}\n` +
+          `${v.name} ${v.hall}`,
+        imageUrl: OG_IMAGE,
+        link: { mobileWebUrl: PAGE_URL, webUrl: PAGE_URL }
+      },
+      buttons: [
+        { title: "청첩장 보기", link: { mobileWebUrl: PAGE_URL, webUrl: PAGE_URL } },
+        { title: "위치 보기",   link: { mobileWebUrl: mapUrl,  webUrl: mapUrl } }
+      ]
+    });
+  };
+}
+
 /* ───── 글자 크기 조절 ───── */
 function setupFontSize(){
   const KEY = "wed_fontsize";
@@ -1625,6 +1662,7 @@ setupGuestbook();
 setupAdmin();
 setupRsvpAuto();
 setupShare();
+setupKakaoShare();
 setupSnow();
 setupFontSize();
 drawHero();
