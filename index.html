@@ -1094,7 +1094,11 @@ function setupModals(){
   });
   $("#openRsvp").onclick    = () => openModal("#mRsvp");
   $("#openWrite").onclick   = () => openModal("#mWrite");
-  $("#openAll").onclick     = async () => { await renderBook("#bookAll", 200); openModal("#mAll"); };
+  $("#openAll").onclick     = () => {
+    $("#bookAll").innerHTML = `<div class="empty">불러오는 중입니다…</div>`;
+    openModal("#mAll");
+    renderBook("#bookAll", 200);
+  };
   $("#openPrivacy").onclick = () => openModal("#mPrivacy");
 }
 
