@@ -222,7 +222,7 @@ p{line-height:1.72;margin:0 0 .8em;font-size:0.8125rem;}
 }
 .lb-btn{position:absolute;background:none;border:0;color:#fff;font-size:1.875rem;
   padding:16px;cursor:pointer;opacity:.75;font-family:var(--serif);z-index:5;}
-.lb-prev{left:0;} .lb-next{right:0;} .lb-close{top:6px;right:6px;font-size:1.5625rem;}
+.lb-prev{left:0;} .lb-next{right:0;} .lb-close{top:6px;left:6px;font-size:1.5625rem;}
 .lb-count{position:absolute;bottom:30px;color:#fff;font-size:0.8125rem;opacity:.7;letter-spacing:.1em;}
 
 /* ═══ 오시는 길 ═══ */
@@ -838,7 +838,7 @@ const CONFIG = {
     couple:  COUPLE_PHOTO,   // 버진로드 위 신랑·신부 사진 — 코드 안에 직접 담겨 있어 파일 업로드 없이 항상 보입니다
     groom:   GROOM_PHOTO,   // 신랑 소개 사진 — 코드 안에 직접 담겨 있습니다
     bride:   BRIDE_PHOTO,   // 신부 소개 사진 — 코드 안에 직접 담겨 있습니다
-    gallery: [GAL_1, GAL_2, GAL_3, GAL_4, GAL_5, GAL_6, GAL_7, GAL_8, GAL_9, GAL_10, GAL_11, GAL_12, GAL_13, GAL_14, GAL_15, GAL_16]
+    gallery: [GAL_10, GAL_11, GAL_8, GAL_4, GAL_15, GAL_2, GAL_1, GAL_7, GAL_9, GAL_6, GAL_13, GAL_5, GAL_16, GAL_14, GAL_3, GAL_12]
   }
 };
 /* ═══════════ 설정 끝 ═══════════ */
@@ -977,6 +977,12 @@ function buildGallery(){
   $("#lbClose").onclick = () => $("#lb").classList.remove("on");
   $("#lbPrev").onclick = () => moveLb(-1);
   $("#lbNext").onclick = () => moveLb(1);
+  // 화살표 말고도, 사진의 왼쪽 절반/오른쪽 절반 아무 데나 눌러도 넘어갑니다.
+  $("#lbStage").addEventListener("click", e => {
+    const r = $("#lbStage").getBoundingClientRect();
+    const half = (e.clientX - r.left) < r.width / 2;
+    moveLb(half ? -1 : 1);
+  });
   $("#lb").onclick = e => { if (e.target.id === "lb") $("#lb").classList.remove("on"); };
   document.addEventListener("keydown", e => {
     if (!$("#lb").classList.contains("on")) return;
@@ -1015,7 +1021,19 @@ function setupMap(){
   $("#btnKakaoNavi").onclick = () =>
     window.open(`https://map.kakao.com/link/to/${encodeURIComponent(v.name)},${v.lat},${v.lng}`, "_blank");
   $("#btnTmap").onclick = () => {
+    let hidden = false;
+    const onHide = () => { hidden = true; };
+    document.addEventListener("visibilitychange", onHide, { once:true });
     location.href = `tmap://route?goalname=${encodeURIComponent(v.name)}&goaly=${v.lat}&goalx=${v.lng}`;
+    setTimeout(() => {
+      document.removeEventListener("visibilitychange", onHide);
+      if (hidden) return;
+      const ua = navigator.userAgent;
+      const store = /iPhone|iPad|iPod/i.test(ua)
+        ? "https://apps.apple.com/kr/app/id431589174"
+        : "https://play.google.com/store/apps/details?id=com.skt.tmap.ku";
+      window.open(store, "_blank");
+    }, 1200);
   };
 
   if (!CONFIG.KAKAO_KEY){ showMapFallback(); return; }
@@ -1139,11 +1157,22 @@ async function saveRow(type, data){
   try{ localStorage.setItem("wed_"+type, JSON.stringify(all)); }catch(e){}
   return {ok:true};
 }
+const _rowCache = {};   // 한 번 불러온 데이터는 기억해뒀다가, 다음부터는 즉시 보여줍니다
 async function loadRows(type){
   if (LIVE){
+    if (_rowCache[type]){
+      // 화면엔 캐시를 바로 보여주고, 최신 내용은 뒤에서 조용히 다시 받아옵니다
+      fetch(`${CONFIG.SHEET_URL}?type=${type}`)
+        .then(r => r.json())
+        .then(j => { _rowCache[type] = Array.isArray(j) ? j : (j.rows || []); })
+        .catch(()=>{});
+      return _rowCache[type];
+    }
     const res = await fetch(`${CONFIG.SHEET_URL}?type=${type}`);
     const j = await res.json();
-    return Array.isArray(j) ? j : (j.rows || []);
+    const rows = Array.isArray(j) ? j : (j.rows || []);
+    _rowCache[type] = rows;
+    return rows;
   }
   return readLocal(type);
 }
@@ -1193,6 +1222,7 @@ function setupGuestbook(){
     btn.disabled = true; btn.textContent = "등록하는 중";
     try{
       await saveRow("guestbook", d);
+      delete _rowCache.guestbook;
       msg.className="msg ok"; msg.textContent="축하 인사가 정상적으로 등록되었습니다.";
       $("#gText").value = "";
       await renderAisle();
@@ -1410,7 +1440,10 @@ let adminKey = null;
 function setupAdmin(){
   $("#delYes").onclick = async () => {
     closeModal($("#mDel"));
-    if (pendingDel) await removeEntry(pendingDel.row, pendingDel.i);
+    if (pendingDel){
+      toast("삭제하는 중입니다…");
+      await removeEntry(pendingDel.row, pendingDel.i);
+    }
     pendingDel = null;
   };
 
@@ -1462,6 +1495,7 @@ async function removeEntry(row, i){
       all.splice(Number(i), 1);
       try{ localStorage.setItem("wed_guestbook", JSON.stringify(all)); }catch(e){}
     }
+    delete _rowCache.guestbook;
     await refreshBooks();
     toast("삭제되었습니다");
   }catch(e){ toast("삭제하지 못하였습니다"); }
@@ -1501,7 +1535,6 @@ function setupKakaoShare(){
   const PAGE_URL = "https://sebeen-jung.github.io/";
   const OG_IMAGE = "https://sebeen-jung.github.io/photos/kakao-share.jpg";
   const v = CONFIG.venue;
-  const mapUrl = `https://map.kakao.com/link/map/${encodeURIComponent(v.name)},${v.lat},${v.lng}`;
 
   btn.onclick = () => {
     Kakao.Share.sendDefault({
@@ -1517,8 +1550,7 @@ function setupKakaoShare(){
         link: { mobileWebUrl: PAGE_URL, webUrl: PAGE_URL }
       },
       buttons: [
-        { title: "청첩장 보기", link: { mobileWebUrl: PAGE_URL, webUrl: PAGE_URL } },
-        { title: "위치 보기",   link: { mobileWebUrl: mapUrl,  webUrl: mapUrl } }
+        { title: "청첩장 보기", link: { mobileWebUrl: PAGE_URL, webUrl: PAGE_URL } }
       ]
     });
   };
