@@ -101,7 +101,11 @@ p{line-height:1.72;margin:0 0 .8em;font-size:0.8125rem;}
 /* 사진 자리 */
 .photo{position:relative;background:linear-gradient(150deg,#F1E9DA,#E3D6BE);overflow:hidden;}
 .photo img{width:100%;height:100%;object-fit:cover;}
-.person.b .photo img{object-position:center 20%;}   /* 신부 사진만 살짝 더 위쪽이 보이게 */
+.person.b .photo img{
+  object-position:center 20%;          /* 신부 사진만 살짝 더 위쪽이 보이게 */
+  transform:scale(1.16);               /* 신랑 얼굴 크기와 비슷하도록 살짝 확대 (값이 클수록 더 확대) */
+  transform-origin:46% 29%;            /* 신부 얼굴 위치를 기준으로 확대 */
+}
 .photo .slot{
   position:absolute;inset:0;display:flex;align-items:center;justify-content:center;
   font-size:0.7188rem;color:rgba(58,50,54,.42);letter-spacing:.06em;text-align:center;
@@ -876,8 +880,7 @@ const CONFIG = {
   ],
 
   greeting:
-    "서로를 존중하고 아껴주며\n함께 걸어갈 사람을 만났습니다.\n\n" +
-    "서로의 하루를 닮아가며\n평생의 여정을 함께하려 합니다.\n따뜻한 마음으로 축복해 주세요.",
+    "새해의 설렘과 함께\n저희 두 사람이 평생을 함께할 첫걸음을 내딛습니다.\n소중한 날, 따뜻한 마음으로\n함께해 주시면 감사하겠습니다.",
 
   giftText:
     "멀리서도 축하의 마음을\n전하고 싶으신 분들을 위해\n계좌번호를 안내드립니다.",
@@ -1153,7 +1156,10 @@ function setupMap(){
   s.onload = () => {
     if (!window.kakao || !kakao.maps) return showMapFallback();
     kakao.maps.load(() => {
-      const pos = new kakao.maps.LatLng(v.lat, v.lng);
+      // 지도에 보이는 핀 위치만 살짝 오른쪽(동쪽)으로 옮깁니다. 값이 클수록 더 오른쪽으로 갑니다.
+      // (티맵·카카오내비 길찾기에 쓰는 실제 좌표 v.lat, v.lng 는 건드리지 않습니다)
+      const PIN_SHIFT_LNG = 0.0003;   // 약 25m
+      const pos = new kakao.maps.LatLng(v.lat, v.lng + PIN_SHIFT_LNG);
       const map = new kakao.maps.Map($("#map"), { center: pos, level: 3 });
       new kakao.maps.Marker({ position: pos, map });
       // 오른쪽에 확대·축소 버튼을 답니다
